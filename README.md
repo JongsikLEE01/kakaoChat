@@ -1,7 +1,8 @@
 # kakaoChat
 카카오 챗봇 스킬 서버 생성
 ## 사용 언어
-- Node.js
+- Node.js v22.11.0
+- eexpress
 - JavaScript
 
 ## 기능
