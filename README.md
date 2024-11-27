@@ -1,8 +1,8 @@
 # kakaoChat
 카카오 챗봇 스킬 서버 생성
 ## 사용 언어
-Node.js
-JavaScript
+- Node.js
+- JavaScript
 
 ## 기능
 ### 1. 오늘 뭐 먹지?
