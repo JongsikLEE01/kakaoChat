@@ -11,3 +11,4 @@ JavaScript
   - json 데이터 형식으로 서버에 응답
 
 ### 실행화면
+![image](https://github.com/user-attachments/assets/4d98a7c0-4a7e-4f57-8706-beda0d72eba9)
