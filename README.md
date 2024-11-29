@@ -30,9 +30,9 @@
 <br>
 
 ### 사용 기술
-- Node.js
-- Express.js
-- ngrok
+- Node.js        v22.11.0
+- Express.js     v4.21.1
+- ngrok          v3.18.4
 
 <br><br><br>
 
