@@ -75,8 +75,7 @@ skill-server-example
     
 
 - **`food.js`**
-음식 추천 API를 처리하는 라우팅 파일로, POST 요청을 받아 카테고리별 추천 결과를 반환합니다.
-    
+음식 추천 API를 처리하는 라우팅 파일로, POST 요청을 받아 카테고리별 추천 결과를 반환
     ```jsx
     const express = require('express');
     const router = express.Router();
@@ -92,8 +91,7 @@ skill-server-example
     <br><br>
 
 - **`foodList.json`**
-음식 데이터를 저장한 JSON 파일입니다. 한식, 중식, 일식, 양식으로 구성됩니다.
-    
+음식 데이터를 저장한 JSON 파일입니다. 한식, 중식, 일식, 양식으로 구성
     ```json
     {
       "한식": ["김치찌개", "된장찌개", "불고기"],
@@ -106,7 +104,6 @@ skill-server-example
     <br><br>
 
 - 응답 `json data` 예시
-    
     ```json
     {
       "version": "2.0",
@@ -123,7 +120,6 @@ skill-server-example
 ## 4. **사용 가이드**
 
 ### **1. 깃허브 클론**
-
 ```bash
 git clone https://github.com/JongsikLEE01/kakaoChat.git
 cd kakaoChat
@@ -132,7 +128,6 @@ cd kakaoChat
 <br>
 
 ### **2. 패키지 설치**
-
 ```bash
 npm install
 ```
@@ -140,7 +135,6 @@ npm install
 <br>
 
 ### **3. 서버 실행**
-
 ```bash
 node index.js
 ```
@@ -148,31 +142,24 @@ node index.js
 <br>
 
 ### **4. ngrok 설정**
-
 ```bash
 ngrok http 3000
 ```
-
 ngrok URL을 카카오 스킬 설정에 사용
 
 <br><br><br>
 
-
 ## 5. 카카오 챗봇 설정 및 테스트
 
 ### 스킬 설정
-
-![스크린샷 2024-11-29 114053.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/78dc0e61-0667-415d-93d6-66223b91cf67/79d0bbe5-4379-458f-816f-dec16615c97a/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2024-11-29_114053.png)
-
+![스크린샷 2024-11-29 114053](https://github.com/user-attachments/assets/3aafb2e2-fba2-4d28-ab07-89a9831bc96c)
 챗봇은 기본적으로 POST 방식으로 `https://url/api/` 로 경로가 지정되고, 내가 설정한 엔드포인트인 foods로 경로에 json 데이터를 보내 요청하고 json 데이터를 반환 받도록 설정
 
 <br>
 
 ### 챗봇 시나리오 설정
-
-![스크린샷 2024-11-29 114106.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/78dc0e61-0667-415d-93d6-66223b91cf67/946be3eb-075c-45c4-bec0-982422d52917/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2024-11-29_114106.png)
-
-챗봇의 경우 응답메세지를 {{webhook}}으로 설정해야 응답한 메세지가 출력됌
+![스크린샷 2024-11-29 114106](https://github.com/user-attachments/assets/07ab544f-0a2e-4dcf-9ff4-8f4cc97cbb8c)
+챗봇의 경우 응답메세지를 {{webhook}}으로 설정해야 응답한 메세지가 출력
 
 <br>
 
