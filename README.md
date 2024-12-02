@@ -1,7 +1,6 @@
 # Kakao Chatbot Skill Server
 
 ## 0. 구조
-
 1. **프로젝트 개요**
     - 주요 기능
     - 사용 기술
