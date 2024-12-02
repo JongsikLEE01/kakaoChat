@@ -24,7 +24,7 @@
 ### 주요 기능
 - 카카오톡 사용자의 입력을 받아 음식 추천
 - 카카오 스킬 서버와의 JSON 응답 처리
-- axios, Vivino API를 이용한 금액대, 종류 별 와인 추천
+- axios, wine-searcher API를 이용한 금액대, 종류 별 와인 추천
 - Google Translate API를 이용한 한국어 번역
 
 <br>
