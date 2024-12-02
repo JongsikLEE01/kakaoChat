@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const food = require('./routes/food');
+const wine = require('./routes/wine');
 
 const app = express();
 const port = 3000;
@@ -10,6 +11,7 @@ app.use(bodyParser.json());
 
 // 라우터 연결
 app.use('/api', food);
+app.use('/api', wine);
 
 // 서버 실행
 app.listen(port, () => {
