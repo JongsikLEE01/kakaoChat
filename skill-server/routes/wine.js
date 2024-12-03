@@ -7,6 +7,7 @@ const API_KEY = process.env.WINE_SEARCHER_API_KEY;
 
 // [POST] /wines 엔드포인트 설정
 router.post('/wines', async (req, res) => {
+  /*
   const { query, priceRange } = req.body;
 
   try {
@@ -70,6 +71,7 @@ router.post('/wines', async (req, res) => {
       error: error.message,
     });
   }
+    */
 });
 
 module.exports = router;
