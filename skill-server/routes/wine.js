@@ -3,75 +3,53 @@ const axios = require('axios');
 const router = express.Router();
 require('dotenv').config();
 
-const API_KEY = process.env.WINE_SEARCHER_API_KEY;
+// API 설정
+const API_KEY = process.env.SPOONACULAR_API_KEY;
+const URL = 'https://api.spoonacular.com/food/wine/recommendation';
 
-// [POST] /wines 엔드포인트 설정
+// [POST] /wines 엔드포인트
 router.post('/wines', async (req, res) => {
-  /*
-  const { query, priceRange } = req.body;
+  const { amount, wineType, minRating, number } = req.body;
+
+  if (!amount || typeof amount !== 'number') {
+    return res.status(400).json({ message: "유효한 금액을 입력해주세요." });
+  }
 
   try {
-    // Wine-Searcher API 요청
-    const response = await axios.get('https://api.wine-searcher.com/suggestions', {
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
-      },
+    // Spoonacular API 호출
+    const response = await axios.get(URL, {
       params: {
-        q: query || 'red wine', // 기본 검색어
-        price_min: priceRange?.min || 0,
-        price_max: priceRange?.max || 100000,
-      },
+        wine: wineType || 'merlot',
+        maxPrice: amount || 0,
+        minRating: minRating || 0.7,
+        number: number || 3,
+        apiKey: API_KEY
+      }
     });
 
-    // 응답 데이터 처리
-    const wines = response.data?.results || [];
-    if (wines.length === 0) {
-      return res.status(404).json({
-        message: '추천할 와인이 없습니다. 조건을 변경해 다시 시도해주세요.',
-      });
-    }
+    // API 응답 데이터 처리
+    const wines = response.data.recommendedWines.map(wine => {
+      return {
+        name: wine.title || '와인 없음',
+        description: wine.description || '설명 없음',
+        price: amount || 0,
+        imageUrl: wine.imageUrl || '이미지 없음',
+        link: wine.link || 'https://spoonacular.com'
+      };
+    });
 
     // JSON 응답 데이터 작성
-    const results = wines.map((wine) => ({
-      name: wine.name,
-      price: wine.price || '가격 정보 없음',
-      description: wine.description || '설명이 없습니다.',
-      region: wine.region || '지역 정보 없음',
-      imageUrl: wine.image_url || '이미지 없음',
-      detailUrl: wine.link || 'https://www.wine-searcher.com',
-    }));
-
-    // 카카오톡 응답 - JSON 반환
     res.status(200).json({
-      message: '와인 추천 결과입니다.',
-      template: {
-        outputs: results.map((wine) => ({
-          basicCard: {
-            title: wine.name,
-            description: `지역 : ${wine.region}\n가격 : ${wine.price}\n설명 : ${wine.description}\n`,
-            thumbnail: {
-                imageUrl: wine.imageUrl,
-            },
-            buttons: [
-              {
-                action: 'webLink',
-                label: '상세 보기',
-                webLinkUrl: wine.detailUrl,
-              },
-            ],
-          },
-        })),
-      },
+      message: '추천된 와인 목록입니다.',
+      wines
     });
   } catch (error) {
-    console.error('Wine-Searcher API 호출 실패:', error.message);
+    console.error('와인 추천 오류:', error.message);
     res.status(500).json({
       message: '와인 추천 중 오류가 발생했습니다.',
-      error: error.message,
+      error: error.message
     });
   }
-    */
 });
 
 module.exports = router;
