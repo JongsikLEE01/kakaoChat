@@ -94,18 +94,166 @@ skill-server-example
 - **`food.js`**
 음식 추천 API를 처리하는 라우팅 파일으로 POST 요청을 받아 카테고리별 추천 결과를 반환
     ```jsx
-    const express = require('express');
-    const router = express.Router();
-    const foodList = require('../list/foodList.json');
-    
-    router.post('/foods', (req, res) => {
-      // 코드...
-    });
-    
-    module.exports = router;
+        const express = require('express');
+        const router = express.Router();
+        const foodList = require('../list/foodList.json');
+
+        // [POST] /foods 엔드포인트 설정
+        router.post('/foods', (req, res) => {
+          try {
+            // input에서 음식 카테고리 추출
+            const category = req.body?.userRequest?.utterance;
+
+            // 기본 응답 데이터 설정
+            let food = [];
+            let msg = "유효한 음식 카테고리를 입력해주세요.(한식, 중식, 양식, 일식)";
+
+            // 사용자가 입력한 카테고리명이 유효한 경우
+            if (category) {
+              if (foodList[category]) {
+                food = foodList[category];
+                msg = `${category}에 대한 음식 추천입니다.`;
+              } else {
+                msg = "등록된 음식 카테고리가 아닙니다. 한식, 중식, 양식, 일식 중에서 선택해주세요.";
+              }
+            }
+
+            // 음식 목록이 존재하면 랜덤으로 하나 선택
+            const randomFood = food.length > 0 ? food[Math.floor(Math.random() * food.length)] : null;
+
+            // 카카오톡 응답 - JSON 반환
+            return res.status(200).send({
+              version: "2.0",
+              data: {
+                category: category || "알 수 없음",
+                food: randomFood || "추천할 음식이 없습니다.",
+                msg
+              }
+            });
+
+          } catch (e) {
+            console.error("서버 응답 중 에러 발생...\n 에러코드 : ", e);
+            return res.status(500).send({
+              version: "2.0",
+              data: {
+                e: "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요."
+              }
+            });
+          }
+        });
+
+        module.exports = router;
     ```
     
     <br>
+
+- **`wine.js`**
+요청 값에 따라 와인을 추천하는 API를 호출
+    ```jsx
+       const response = await axios.get(URL, {
+         params: {
+        	 wine: wineType || 'merlot',
+        	 maxPrice: maxPriceUSD || 10,
+           minRating: minRating || 0.7,
+           number: 1,
+           apiKey: API_KEY,
+           },
+        });
+    ```
+    
+    <br>
+
+- **`wine.js`**
+번역 및 원화를 한화로 변경하며 각종 세금을 추가하고 값을 반환
+    ```jsx
+        const wines = await Promise.all(
+        	response.data.recommendedWines.map(async (wine) => {
+        	  const priceUSD = parseFloat(wine.price.replace('$', ''));
+            const totalUSD = priceUSD + FEE_USD;                  // 와인 + 배송비
+            const dutyUSD = totalUSD * CUSTOMS_RATE;              // 관세
+            const taxUSD = (totalUSD + dutyUSD) * TAX_RATE;       // 주세
+            const finalPrice = totalUSD + dutyUSD + taxUSD;       // 최종 달러
+            const price = roundToNumber(finalPrice / KRW_TO_USD); // 최종 원화
+
+            // 번역
+            const korName = await translate(wine.title || '와인 없음');
+            const korDescription = await translate(wine.description || '설명 없음');
+
+            return {
+        	    name: korName,
+        	    description: korDescription,
+        	    price: `${price}원 입니다.`,
+        	    imageUrl: wine.imageUrl || '이미지 없음',
+            };
+          })
+        );
+    ```
+    
+    <br>
+
+- **`translate.js`**
+번역 API를 사용해 와인 이름과 와인의 설명을 반환
+    ```jsx
+        const PAPAGO_API_URL = 'https://naveropenapi.apigw.ntruss.com/nmt/v1/translation';
+
+        async function translate(text, sourceLang, targetLang) {
+          try {
+            const response = await axios.post(PAPAGO_API_URL, null, {
+              headers: {
+                'Content-Type': 'application/json',
+                'X-NCP-APIGW-API-KEY-ID': API_ID,
+                'X-NCP-APIGW-API-KEY': API_KEY,
+              },
+              params: {
+                source: sourceLang,
+                target: targetLang,
+                text: text,
+              },
+            });
+            return response.data.message.result.translatedText;
+          } catch (error) {
+            console.error('번역 오류... ', error.response?.data || error.message);
+            throw new Error('번역 실패...');
+          }
+        }
+    ```
+    
+    <br>
+
+- **`요청 값`**
+    ```json
+        {
+          "action": {
+            "params": {
+              "amount": 100000,
+              "wineType": "merlot",
+              "minRating": 0.8
+            }
+          }
+        }
+    ```
+    
+    <br>
+
+- **`반환 값`**
+번역 API를 사용해 와인 이름과 와인의 설명을 반환
+    ```json
+        {
+          "response": {
+            "message": "추천된 오늘의 와인입니다.",
+            "wines": [
+              {
+                "name": "롤링 스톤스 50주년 기념 40 릭스 메를로 와인",
+                "description": "2012년형 메를로는 멘도시노 카운티 스타일의 태도를 잘 보여줍니다. 블랙 체리, 가죽, 담배의 향 뒤에는 바닐라 위에 풍부한 향의 시나몬 향이 이어집니다. 이 드라이 레드 와인은 허브 로스팅 치킨, 구운 소고기 또는 스모키 칠리와 잘 어울립니다.",
+                "price": "60000원 입니다.",
+                "imageUrl": "https://img.spoonacular.com/products/428396-312x231.jpg"
+              }
+            ]
+          }
+        }
+    ```
+    
+    <br><br>
 
 - 
 
