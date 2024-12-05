@@ -3,28 +3,30 @@ require('dotenv').config();
 
 // API 설정
 const PAPAGO_API_URL = 'https://naveropenapi.apigw.ntruss.com/nmt/v1/translation';
-const API_ID = process.env.PAPAGO_API_KEY;
-const API_KEY = process.env.PAPAGO_API_KEY_ID;
+const API_ID = process.env.PAPAGO_API_KEY_ID;
+const API_KEY = process.env.PAPAGO_API_KEY;
+
+console.log(API_ID);
+console.log(API_KEY);
 
 /**
- * 번역 함수
+ * 번역 API 호출 함수
  * @param {*} text 번역 문장
  * @returns 
  */
-async function translate(text, sourceLang, targetLang) {
+async function translate(text) {
   try {
     const response = await axios.post(PAPAGO_API_URL, {
+      source: 'en',
+      target: 'ko',
+      text: text,
+    }, {
       headers: {
         'Content-Type': 'application/json',
         'X-NCP-APIGW-API-KEY-ID': API_ID,
         'X-NCP-APIGW-API-KEY': API_KEY,
       },
-      params: {
-        source: 'en',
-        target: 'ko',
-        text: text,
-      },
-    });
+    });  
 
     return response.data.message.result.translatedText;
   } catch (error) {

@@ -1,6 +1,6 @@
 const express = require('express');
-const axios = require('axios');
 const { translate } = require('../utils/translate');
+const axios = require('axios');
 const router = express.Router();
 require('dotenv').config();
 
@@ -50,10 +50,8 @@ router.post('/wines', async (req, res) => {
         const price = roundToNumber(finalPrice / KRW_TO_USD); // 최종 원화
 
         // 번역
-        // const korName = await translate(wine.title || '와인 없음', 'en' ,'ko');
-        // const korDescription = await translate(wine.description || '설명 없음', 'en', 'ko');
-        const korDescription = await translate('testing my chatbot' || '설명 없음');
-        const korName = '테스트'
+        const korName = await translate(wine.title || '와인 없음');
+        const korDescription = await translate(wine.description || '설명 없음');
 
         return {
           name: korName,
