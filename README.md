@@ -1,6 +1,6 @@
 # Kakao Chatbot Skill Server
 ### Project Blog
-<a href="https://screeching-bench-b7a.notion.site/dove-512d5b5a52234172b5640a2d77e44bc3"><img src="https://img.shields.io/badge/Project-000000?style=flat&logo=notion&logoColor=white"/></a>
+<a href="https://screeching-bench-b7a.notion.site/Toy-1103764bd78b80588802ec1a897443fe"><img src="https://img.shields.io/badge/Project-000000?style=flat&logo=notion&logoColor=white"/></a>
 <br><br>
 
 ## 0. 구조
