@@ -8,14 +8,24 @@
     - 주요 기능
     - 사용 기술
 2. **폴더 구조**
-3. **핵심 로직**
-    - 주요 파일 별 설명
-4. **사용 가이드**
+3. **기능 설계**
+    - 음식 추천
+    - 텍스트 번역
+    - 맞춤형 와인 추천
+    - 달러 원화 변환 및 세금 계산
+4. **주요 기능**
+    - 라우터 설정
+    - 음식 추천
+    - 와인 추천
+    - 번역 및 금액 계산
+    - 요청 값
+    - 반환 값
+5. **사용 가이드**
     - 깃 클론
     - 패키지 설치
     - 서버 실행
     - ngrok 설정
-5. **카카오 챗봇 설정 및 테스트**
+6. **카카오 챗봇 설정 및 테스트**
     - 스킬 설정
     - 챗봇 시나리오 설정
     - 카카오톡 테스트 화면
@@ -49,6 +59,8 @@ skill-server-example
 ├── routes                  # 라우팅 및 API 엔드포인트
 │   └── food.js
 │   └── wine.js
+├── utils                   # 유틸리티 파일
+│   └── translate.js
 ├── index.js                # 메인 서버 파일
 ├── package.json            # 프로젝트 설정 및 종속성
 └── package-lock.json       # 종속성 버전 잠금 파일
@@ -56,10 +68,10 @@ skill-server-example
 
 <br><br><br>
 
-## 3. 핵심 로직
-- **`index.js`**
-메인 서버 파일로, Express.js를 기반으로 서버를 실행하고 `/api` 라우트를 연결
-    
+## 4. 주요 기능
+- 카카오톡 사용자의 입력을 받아 음식 추천
+- 카카오 스킬 서버와의 JSON 응답 처리
+- Spoonacular API를 이용한 금액대, 로 Express.js를 기반으로 서버를 실행하고 `/api` 라우트를 연결
     ```jsx
     const express = require('express');
     const bodyParser = require('body-parser');
@@ -80,7 +92,7 @@ skill-server-example
     
 
 - **`food.js`**
-음식 추천 API를 처리하는 라우팅 파일로, POST 요청을 받아 카테고리별 추천 결과를 반환
+음식 추천 API를 처리하는 라우팅 파일으로 POST 요청을 받아 카테고리별 추천 결과를 반환
     ```jsx
     const express = require('express');
     const router = express.Router();
@@ -93,36 +105,11 @@ skill-server-example
     module.exports = router;
     ```
     
-    <br><br>
+    <br>
 
-- **`foodList.json`**
-음식 데이터를 저장한 JSON 파일입니다. 한식, 중식, 일식, 양식으로 구성
-    ```json
-    {
-      "한식": ["김치찌개", "된장찌개", "불고기"],
-      "중식": ["짜장면", "짬뽕", "탕수육"],
-      "일식": ["스시", "나베", "라멘"],
-      "양식": ["피자", "햄버거", "까르보나라"]
-    }
-    ```
+- 
 
-    <br><br>
-
-- 응답 `json data` 예시
-    ```json
-    {
-      "version": "2.0",
-      "data": {
-        "category": "한식",
-        "food": "김치찌개",
-        "msg": "한식에 대한 음식 추천입니다."
-      }
-    }
-    ```
-
-    <br><br><br>
-
-## 4. **사용 가이드**
+## 5. **사용 가이드**
 
 ### **1. 깃허브 클론**
 ```bash
@@ -154,7 +141,7 @@ ngrok URL을 카카오 스킬 설정에 사용
 
 <br><br><br>
 
-## 5. 카카오 챗봇 설정 및 테스트
+## 6. 카카오 챗봇 설정 및 테스트
 
 ### 스킬 설정
 ![스크린샷 2024-11-29 114053](https://github.com/user-attachments/assets/3aafb2e2-fba2-4d28-ab07-89a9831bc96c)
@@ -170,3 +157,4 @@ ngrok URL을 카카오 스킬 설정에 사용
 
 ### 카카오톡 테스트 화면
 ![image](https://github.com/user-attachments/assets/4d98a7c0-4a7e-4f57-8706-beda0d72eba9)
+
