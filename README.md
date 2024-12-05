@@ -1,4 +1,6 @@
 # Kakao Chatbot Skill Server
+프로젝트 게시글 https://www.notion.so/Toy-1103764bd78b80588802ec1a897443fe
+<br><br>
 
 ## 0. 구조
 1. **프로젝트 개요**
