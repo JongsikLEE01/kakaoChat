@@ -25,8 +25,8 @@
 - 카카오톡 사용자의 입력을 받아 음식 추천
 - 카카오 스킬 서버와의 JSON 응답 처리
 - axios를 이용한 HTTP 요청
-- spoonacular API를 이용한 금액대, 종류 별 와인 추천
-- Google Translate API를 이용한 한국어 번역
+- Spoonacular API를 이용한 금액대, 종류 별 와인 추천
+- LibreTranslate API를 이용한 한국어 번역
 
 <br>
 
@@ -84,7 +84,7 @@ skill-server-example
     const foodList = require('../list/foodList.json');
     
     router.post('/foods', (req, res) => {
-      // 코드 설명 포함
+      // 코드...
     });
     
     module.exports = router;
