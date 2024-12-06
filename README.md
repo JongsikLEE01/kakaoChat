@@ -308,18 +308,29 @@ ngrok URL을 카카오 스킬 설정에 사용
 
 ## 6. 카카오 챗봇 설정 및 테스트
 
-### 스킬 설정
+### 음식 추천 스킬 설정
 ![스크린샷 2024-11-29 114053](https://github.com/user-attachments/assets/3aafb2e2-fba2-4d28-ab07-89a9831bc96c)
 챗봇은 기본적으로 POST 방식으로 `https://url/api/` 로 경로가 지정되고, 내가 설정한 엔드포인트인 foods로 경로에 json 데이터를 보내 요청하고 json 데이터를 반환 받도록 설정
 
+### 와인 추천 스킬 설정
+![와인스킬테스트](https://github.com/user-attachments/assets/bb03bd0b-a061-49dd-965f-ef98cbb48bd1)
+
 <br>
 
-### 챗봇 시나리오 설정
+### 음식 추천 챗봇 시나리오 설정
 ![스크린샷 2024-11-29 114106](https://github.com/user-attachments/assets/07ab544f-0a2e-4dcf-9ff4-8f4cc97cbb8c)
 챗봇의 경우 응답메세지를 {{webhook}}으로 설정해야 응답한 메세지가 출력
+### 와인 추천 챗봇 시나리오 설정
+![와인시나리오](https://github.com/user-attachments/assets/20a3f806-18db-4b58-9f01-89d4666f3483)
+![와인되묻기](https://github.com/user-attachments/assets/a19df67c-cf1e-4f5a-bcd8-360fe74160cf)
+필수 파라미터의 경우 되묻기 질문을 설정해야 정상적으로 작동
 
 <br>
 
-### 카카오톡 테스트 화면
+
+### 음식 추천 카카오톡 테스트 화면
 ![image](https://github.com/user-attachments/assets/4d98a7c0-4a7e-4f57-8706-beda0d72eba9)
+### 와인 추천 카카오톡 테스트 화면
+![와인카카오톡](https://github.com/user-attachments/assets/24b43a3b-6342-400b-861b-736402e34a94)
+
 
