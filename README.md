@@ -319,10 +319,12 @@ ngrok URL을 카카오 스킬 설정에 사용
 
 ### 음식 추천 챗봇 시나리오 설정
 ![스크린샷 2024-11-29 114106](https://github.com/user-attachments/assets/07ab544f-0a2e-4dcf-9ff4-8f4cc97cbb8c)
+
 챗봇의 경우 응답메세지를 {{webhook}}으로 설정해야 응답한 메세지가 출력
 ### 와인 추천 챗봇 시나리오 설정
 ![와인시나리오](https://github.com/user-attachments/assets/20a3f806-18db-4b58-9f01-89d4666f3483)
 ![와인되묻기](https://github.com/user-attachments/assets/a19df67c-cf1e-4f5a-bcd8-360fe74160cf)
+
 필수 파라미터의 경우 되묻기 질문을 설정해야 정상적으로 작동
 
 <br>
