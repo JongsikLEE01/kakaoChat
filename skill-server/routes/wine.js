@@ -19,10 +19,12 @@ const roundToNumber = (amount) => {
 
 // [POST] /wines 엔드포인트
 router.post('/wines', async (req, res) => {
-  const { amount, wineType, minRating } = req?.body?.action?.params;
+  const { amount, wineType } = req?.body?.action?.params;
   
-  if (!amount || typeof amount !== 'number')
-    return res.status(400).json({ message: "유효한 금액을 입력해주세요." });
+  if(!wineType)
+    return res.status(200).json({ msg: "유효한 와인을 입력해주세요." });
+  if (!amount)
+    return res.status(200).json({ msg: "유효한 금액을 입력해주세요." });
 
   // 원화를 달러로 변환
   const maxPriceUSD = Math.round((amount * KRW_TO_USD) * 100) / 100;
@@ -33,45 +35,57 @@ router.post('/wines', async (req, res) => {
       params: {
         wine: wineType || 'merlot',
         maxPrice: maxPriceUSD || 10,
-        minRating: minRating || 0.7,
+        minRating: 0.9,
         number: 1,
         apiKey: API_KEY,
       },
     });
 
     // API 응답 처리
-    const wines = await Promise.all(
-      response.data.recommendedWines.map(async (wine) => {
-        const priceUSD = parseFloat(wine.price.replace('$', ''));
-        const totalUSD = priceUSD + FEE_USD;                  // 와인 + 배송비
-        const dutyUSD = totalUSD * CUSTOMS_RATE;              // 관세
-        const taxUSD = (totalUSD + dutyUSD) * TAX_RATE;       // 주세
-        const finalPrice = totalUSD + dutyUSD + taxUSD;       // 최종 달러
-        const price = roundToNumber(finalPrice / KRW_TO_USD); // 최종 원화
+    const wine = response.data.recommendedWines[0]; // 첫 번째 와인만 선택
 
-        // 번역
-        const korName = await translate(wine.title || '와인 없음');
-        const korDescription = await translate(wine.description || '설명 없음');
+    if (!wine) {
+      // 추천 와인이 없을 경우 처리
+      res.status(200).json({
+        version: "2.0",
+        data: {
+          msg: "추천할 와인이 없습니다.",
+          name: null,
+          description: null,
+          price: null,
+        },
+      });
+      return;
+    }
 
-        return {
-          name: korName,
-          description: korDescription,
-          price: `${price}원 입니다.`,
-          imageUrl: wine.imageUrl || '이미지 없음',
-        };
-      })
-    );
+    // 금액 계산
+    const priceUSD = parseFloat(wine.price.replace('$', ''));
+    const totalUSD = priceUSD + FEE_USD;                  // 와인 + 배송비
+    const dutyUSD = totalUSD * CUSTOMS_RATE;              // 관세
+    const taxUSD = (totalUSD + dutyUSD) * TAX_RATE;       // 주세
+    const finalPrice = totalUSD + dutyUSD + taxUSD;       // 최종 달러
+    const price = roundToNumber(finalPrice / KRW_TO_USD); // 최종 원화
 
-    // JSON 응답 데이터 작성
+    // 번역
+    const korName = await translate(wine.title || '와인 없음');
+    const korDescription = await translate(wine.description || '설명 없음');
+
+    // 응답 데이터
     res.status(200).json({
-      message: '추천된 오늘의 와인입니다.',
-      wines,
+      version: "2.0",
+      data: {
+        msg: "추천 와인입니다.",
+        name: korName,
+        description: korDescription,
+        price: `${price}원`,
+      },
     });
+
   } catch (e) {
-    console.error('와인 추천 중 오류 발생:', e.message);
-    res.status(500).json({
-      message: '와인 추천 중 오류가 발생했습니다.',
-      e: e.message,
+    console.error('와인 추천 중 오류 발생:', e.msg);
+    res.status(400).json({
+      msg: '와인 추천 중 오류가 발생했습니다.',
+      e: e.msg,
     });
   }
 });
