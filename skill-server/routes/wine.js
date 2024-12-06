@@ -35,7 +35,7 @@ router.post('/wines', async (req, res) => {
   // 유효성 검사
   const randomWineType = recommendWine(wineType);
   if (!randomWineType)
-    return res.status(200).json({ msg: "와인 타입을 입력해주세요." });
+    return res.status(200).json({ msg: "정상적이지 않은 와인 타입..." });
   if (!amount)
     return res.status(200).json({ msg: "금액을 입력해주세요." });
 
