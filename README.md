@@ -56,6 +56,7 @@
 skill-server-example
 ├── list                    # 데이터 리스트
 │   └── foodList.json
+│   └── wineList.json
 ├── routes                  # 라우팅 및 API 엔드포인트
 │   └── food.js
 │   └── wine.js
