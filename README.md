@@ -40,7 +40,6 @@
 - axios를 이용한 HTTP 요청
 - Spoonacular API를 이용한 금액대, 종류 별 와인 추천
 - Papago API를 이용한 한국어 번역
-
 <br>
 
 ### 사용 기술
